@@ -1,5 +1,5 @@
 const express = require('express');
-// const logger = require('erik');
+const logger = require('morgan');
 const bodyParser = require('body-parser');
 
 const tasksRoutes = require('./routes/tasks.routes');
@@ -24,12 +24,12 @@ app.use(bodyParser.json());
 app.use('tasks', tasksRoutes); // http://localhost:3000/tasks
 
 // Handle 404 requests
-//app.use(middleware.error404);
+app.use(middleware.error404); // http://localhost:3000/users
 
 // Handle 500 requests - applies mostly to live services
-//app.use(middleware.error500);
+app.use(middleware.error500); 
 
 // listen on server port
 app.listen(port, () => {
     console.log('Running on port: ${port} ...');
-})
+});
