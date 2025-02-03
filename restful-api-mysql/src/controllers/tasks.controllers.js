@@ -1,5 +1,5 @@
 const con = require('../db-config');
-const quesries = require('../queries/tasks.queries');
+const queries = require('../queries/tasks.queries');
 
 /**
  * CRUD = Create, Read, Update, Delete
@@ -18,6 +18,7 @@ exports.getAllTasks = function(req, res) {
     });
 };
 
+// http://localhost:3000/tasks/1
 exports.getTask = function(req,res) {
     con.query(quesries.SINGLE_TASK, [req.param.taskId], function(err, data) {
         if (err) {
@@ -27,6 +28,13 @@ exports.getTask = function(req,res) {
     });
 };
 
+// http://localhost:3000/tasks/1
+/**
+ * POST request -
+ * {
+ *  name: 'A task name'
+ * }
+ */
 exports.createTask = function(req, res) {
     con.query(quesries.INSERT_TASK, [req.body.name], function(err, result) {
         if (err) {
@@ -37,6 +45,14 @@ exports.createTask = function(req, res) {
     });
 };
 
+http://localhost:3000/tasks/1
+/**
+ * PUT request - 
+ * {
+ * name: 'A task name',
+ * state: 'completed'
+ * } 
+ */
 exports.updateTask = function(req, res) {
     con.query(
         quesries.UPDATE_TASK,

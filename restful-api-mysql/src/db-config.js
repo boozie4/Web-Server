@@ -1,5 +1,5 @@
 const mysql = require('mysql');
-const queries = require('/.queries/tasks.queries');
+const queries = require('./queries/tasks.queries');
 
 // Get the Host from Environment or use default
 const host = process.env.DB_HOST || 'localhost';

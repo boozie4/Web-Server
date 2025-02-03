@@ -2,7 +2,7 @@ const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 
-const tasksRoutes = require('./routes/tasks.routes');
+// const tasksRoutes = require('./routes/tasks.routes');
 const middleware = require('./middleware/errors.middleware');
 
 const app = express();
@@ -21,7 +21,8 @@ app.use(bodyParser.json());
 // ***********************************
 
 // Handle routes for tasks.
-app.use('tasks', tasksRoutes); // http://localhost:3000/tasks
+// app.use('tasks', tasksRoutes); // http://localhost:3000/tasks
+// app.use('users', usersRoutes); // http://localhost:3000/users
 
 // Handle 404 requests
 app.use(middleware.error404); // http://localhost:3000/users
@@ -31,5 +32,5 @@ app.use(middleware.error500);
 
 // listen on server port
 app.listen(port, () => {
-    console.log('Running on port: ${port} ...');
+    console.log(`Running on port: ${port}.`);
 });

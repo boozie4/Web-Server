@@ -1,4 +1,4 @@
-const controllers = require('../controllers/tasks.controller');
+const controllers = require('../controllers/tasks.controllers');
 const express = require('express');
 
 const tasksRoutes = express.Router();
@@ -17,8 +17,8 @@ tasksRoutes.get('/', controllers.getAllTasks).post('/', controllers.createTask);
  * Routes for a task by id. Evaluates to'/tasks/:taskId'.
  */
 tasksRoutes
-    .get('/:taskId', controllers.getTask)
+    .get('/:taskId', controllers.getTask) // GET http://localhost:3000/tasks/1
     .put('/:taskId', controllers.updateTask)
-    .delete('/:taskId',controllers.deleteTask);
+    .delete('/:taskId', controllers.deleteTask);
 
 module.exports = tasksRoutes;
