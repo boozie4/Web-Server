@@ -10,7 +10,7 @@ const queries = require('../queries/tasks.queries');
  */
 
 exports.getAllTasks = function(req, res) {
-    con.query(quesries.ALL_TASKS, function(err, result, fields) {
+    con.query(queries.ALL_TASKS, function(err, result, fields) {
         if (err) {
             res.send(err);
         }
@@ -20,7 +20,7 @@ exports.getAllTasks = function(req, res) {
 
 // http://localhost:3000/tasks/1
 exports.getTask = function(req,res) {
-    con.query(quesries.SINGLE_TASK, [req.param.taskId], function(err, data) {
+    con.query(queries.SINGLE_TASK, [req.param.taskId], function(err, data) {
         if (err) {
             res.send(err);
         }
@@ -36,7 +36,7 @@ exports.getTask = function(req,res) {
  * }
  */
 exports.createTask = function(req, res) {
-    con.query(quesries.INSERT_TASK, [req.body.name], function(err, result) {
+    con.query(queries.INSERT_TASK, [req.body.name], function(err, result) {
         if (err) {
             res.send(err);
         }
@@ -45,7 +45,7 @@ exports.createTask = function(req, res) {
     });
 };
 
-http://localhost:3000/tasks/1
+//http://localhost:3000/tasks/1
 /**
  * PUT request - 
  * {
@@ -55,7 +55,7 @@ http://localhost:3000/tasks/1
  */
 exports.updateTask = function(req, res) {
     con.query(
-        quesries.UPDATE_TASK,
+        queries.UPDATE_TASK,
         [req.body.name, req.body.status, req.params.taskId],
         function(err, data) {
             if (err) {
@@ -64,3 +64,13 @@ exports.updateTask = function(req, res) {
         }
     )
 }
+
+exports.deleteTask = function(req, res) {
+    con.query(queries.DELETE_TASK, [req.params.taskId], function(err) {
+        if(err) {
+            res.send(err);
+        }
+        res.json({ msg: 'Deleted successfully.' });
+    });
+};
+

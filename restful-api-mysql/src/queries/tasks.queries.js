@@ -28,7 +28,7 @@ exports.ALL_TASKS = 'SELECT * FROM tasks';
 exports.SINGLE_TASKS = 'SELECT * FROM tasks WHERE id = ?';
 
 /**
- * Inser follows syntax:
+ * Insert follows syntax:
  * - INSERT INTO <table_name>(<col_name1>, <col_name2>, <col_name3>, ...)
  *    VALUES(<value1>, <value2>, <value3>, ...)
  * 
