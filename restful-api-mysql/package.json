@@ -1,12 +1,23 @@
 {
+  "name": "example",
+  "version": "1.0.0",
+  "description": "Example test app",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon ./src"
+  },
+  "author": " ",
+  "license": "ISC",
   "dependencies": {
-    "bcrypt": "^5.1.1",
-    "bcryptjs": "^2.4.3",
-    "express": "^4.21.2",
-    "is-empty": "^1.2.0",
-    "jsonwebtoken": "^9.0.2",
-    "morgan": "^1.10.0",
-    "mysql": "^2.18.1",
-    "validator": "^13.12.0"
+    "bcryptjs":"2.4.3",
+    "body-parser": "1.20.3",
+    "cors": "2.8.5",
+    "express": "4.21.2",
+    "jsonwebtoken": "9.0.2",
+    "morgan": "1.10.0",
+    "mysql": "2.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "3.1.9"
   }
 }

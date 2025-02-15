@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 
@@ -8,7 +9,7 @@ const userRoutes = require('./routes/user.route');
 const middleware = require('./middleware/errors.middleware');
 
 const app = express();
-const port = process.env.PORT || 3306;
+const port = process.env.PORT || 3000;
 const logLevel = process.env.LOG_LEVEL || 'dev';
 
 // Middleware - logs server requests to console
@@ -17,6 +18,9 @@ app.use(logger(logLevel));
 // Middleware - parses incoming requests data (https://github.com/expressjs/body-parser)
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(bodyParser.json());
+
+// Allow websites to talk to our API service.
+app.use(cors());
 
 // ***********************************
 // ROUTE_HANDLING MIDDLWARE FUNCTIONS
