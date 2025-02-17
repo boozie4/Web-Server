@@ -51,7 +51,7 @@ exports.login = function(req, res) {
             console.log(user);
             // validate entered password from database saved password
             bcrypt
-              .compare(req.cody.password, user[0].password)
+              .compare(req.body.password, user[0].password)
               .then(function(validPass) {
                 if (!validPass) {
                     res.status(400).send({ msg: 'Invalid password!' });
