@@ -4,7 +4,8 @@
   "description": "Example test app",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./src"
+    "start": "nodemon ./src",
+    "test": "NODE_ENV='test' mocha ./tests/*"
   },
   "author": " ",
   "license": "ISC",
@@ -18,6 +19,9 @@
     "mysql": "2.18.1"
   },
   "devDependencies": {
+    "chai":"5.2.0",
+    "chai-http": "5.1.1",
+    "mocha": "11.1.0",
     "nodemon": "3.1.9"
   }
 }
