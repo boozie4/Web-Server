@@ -1,8 +1,10 @@
 const mysql = require('mysql');
-const queries = require('./queries/tasks.queries');
+const { CREATE_USERS_TABLE } = require('./queries/user.queries');
+const { CREATE_TASKS_TABLE } = require('./queries/tasks.queries');
+const query = require('./utils/query');
 
 // Get the Host from Environment or use default
-const host = process.env.DB_HOST || '127.0.0.1';
+const host = process.env.DB_HOST || 'localhost';
 
 // Get the User for DB from Environment or use default
 const user = process.env.DB_USER || 'root';
@@ -14,26 +16,29 @@ const password = process.env.DB_PASS || 'password';
 const database = process.env.DB_DATABASE || 'tododb';
 
 // Create the connection with required details
-const con = mysql.createConnection({
-    host,
-    user,
-    password,
-    database
-});
+module.exports = async () => {
+    return new Promise(async (resolve, reject) => {
+        const con = mysql.createConnection({
+            host,
+            user,
+            password,
+            database
+        });
 
-// Connect to the database
-con.connect (function(err) {
-    if (err) throw err;
-    console.log('Connected!');
+        const userTableCreated = await query(con, CREATE_USERS_TABLE).catch(
+            (err) => {
+                reject(err);
+            }
+        );
 
-    con.query(authQueries.CREATE_USERS_TABLE, function(err, result) {
-        if (err)throw err;
-        console.log('Users table created or exists already!');
+        const tasksTableCreated = await query(con, CREATE_TASKS_TABLE).catch(
+            (err) => {
+                reject(err);
+            }
+        );
+
+        if (!!userTableCreated && !!tasksTableCreated) {
+            resolve(con);
+        }
     });
-    con.query(authQueries.CREATE_TASKS_TABLE, function(err, result) {
-        if (err)throw err;
-        console.log('Tasks table created or exists already!');
-    });
-});
-
-module.exports = con;
+};

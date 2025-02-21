@@ -1,13 +1,30 @@
-const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
-const con = require('../db-config');
-const jwtconfig = require('../jwt-config');
-const authQueries = require('../queries/auth.queries');
-const userQueries = require('../queries/user.queries');
+const connection = require('../db-config');
+const {
+    GET_ME_BY_USERNAME,
+    GET_ME_BY_USERNAME_WITH_PASSWORD,
+    INSER_NEW_USER,
+} = require('../queries/user.queries');
+const query = require('../utils/query.js');
+const { refreshTokens, generateToken } = require('../utils/jwt-helpers');
 
-exports.registerUser = function(req, res) {
-    const passwordHash = bcrypt.hashSync(requestIdleCallback.body.email, passwordHash);
+exports.register = async (req, res) => {
+    const passwordHash = bcrypt.hashSync(req.body.password);
+    const params = [req.body.username, req.body.email, passwordHash];
+
+    // establish a connection
+    const con = await connection().catch((err) => {
+        throw err;
+    });
+
+    // check for existing user first
+    const user = await query(con, GET_ME_BY_USERNAME, [req.body.username]).catch(
+        (err) => {
+            res.status(500);
+            res.send({ msg: 'Could not retrieve user.' });
+        }
+    );
 
     con.query(
         authQueries.INSER_NEW_USER,

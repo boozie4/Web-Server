@@ -20,3 +20,5 @@ exports.error500 = (error, req, res, next) => {
         }
     });
 };
+
+console.log(exports);
