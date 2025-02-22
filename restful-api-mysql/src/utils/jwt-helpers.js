@@ -18,7 +18,7 @@ const refreshTokens = [];
  *  { expiresIn: 86400 } for 24 hours in seconds
  */
 // create a new auth token
-const generateToken = (id, expiresIn) => 
+const generateAccessToken = (id, expiresIn) => 
     jwt.sign({ id }, jwtconfig.access, expiresIn);
 
 // create a new re-auth token
@@ -37,7 +37,7 @@ const verifyToken = (token, secret, req, res) => {
 module.exports = {
     jwtconfig,
     refreshTokens,
-    generateToken,
+    generateAccessToken,
     generateRefreshToken,
     verifyToken,
 };
