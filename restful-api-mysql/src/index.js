@@ -29,14 +29,14 @@ app.use(cors());
 // ***********************************
 
 // Partial API endpoints
-// app.use('/api/auth', authRoutes); // http://localhost:3000/api/auth
-// app.use('/api/user', userRoutes); // http://localhost:3000/api/users
-// app.use('/api/tasks', tasksRoutes); // http://localhost3000/api/tasks
+app.use('/api/auth', authRoutes); // http://localhost:3000/api/auth
+app.use('/api/user', userRoutes); // http://localhost:3000/api/users
+app.use('/api/tasks', tasksRoutes); // http://localhost3000/api/tasks
 
 // Handle routes for tasks.
-app.use('auth', authRoutes);
-app.use('tasks', tasksRoutes); // http://localhost:3000/tasks
-app.use('users', userRoutes); // http://localhost:3000/users
+// app.use('auth', authRoutes);
+// app.use('tasks', tasksRoutes); // http://localhost:3000/tasks
+// app.use('users', userRoutes); // http://localhost:3000/users
 
 // Handle 404 requests
 app.use(error404); // http://localhost:3000/users

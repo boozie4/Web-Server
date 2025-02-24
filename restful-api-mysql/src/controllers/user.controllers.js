@@ -10,23 +10,23 @@ const {
 
 exports.getMe = async (req, res)  => {
     // verify valid token
-    const decoded = req.user;
+    const user = req.user;
 
     // take result of middleware check
-    if (!!decoded) {
+    if (user.id) {
         // establish a connection
         const con = await connection().catch((err) => {
             throw err;
         });
 
-        const user = await query(con, GET_ME_BY_USER_ID, [decoded.id]).catch(
+        const user = await query(con, GET_ME_BY_USER_ID, [user.id]).catch(
             (err) => {
-                res.status(500).send({ msg: 'Could not find the user.' });
+                res.status(500).json({ msg: 'Could not find the user.' });
             }
         );
 
         if (!user.length) {
-            res.status(400).send({ msg: 'No user found.' });
+            res.status(400).json({ msg: 'No user found.' });
         }
         res.status(200).send(user);
     }
