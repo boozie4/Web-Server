@@ -1,4 +1,4 @@
-const mysql = require('mysql');
+const escape = require('mysql').escape;
 const connection = require('../db-config');
 const {
     ALL_TASKS, 
@@ -30,8 +30,9 @@ exports.getAllTasks = async (req, res) => {
         serverError(res)
     );
 
+    // [] == true, 0 == false
     if(!tasks.length) {
-        res.status(400).json({ msg: 'No tasks available for this user.' });
+        res.status(200).json({ msg: 'No tasks available for this user.' });
     }
     res.json(tasks);
 };
@@ -63,19 +64,21 @@ exports.getTask = async (req, res) => {
  * }
  */
 exports.createTask = async (req, res) => {
+    // verify valid toke
+    const user = req.user; // {id: 1, iat: wlenfwekl, expiredIn: 9174323 }
+
+    // take result of middleware check
+    if (user.id) {
     // establish a connection
     const con = await connection().catch((err) => {
         throw err;
     });
 
-    // query to create a task
-    const result = await query(
-            con, 
-            INSERT_TASK, 
-            [req.body.name]
-        ).catch((err) => {
-            res.send(err);
-        });
+    // query add task
+    const taskName = escape(req.body.task_name);
+    const result = await query(con, INSERT_TASK(user.id, taskName)).catch(
+        serverError(res)
+        );
 
         if(result.affectedRows !== 1) {
             res
@@ -90,12 +93,14 @@ exports.createTask = async (req, res) => {
  * Build up values string.
  * 
  * @example 'key1 = value1, key2 = value2, ...'
+ * 'key1 = value1, key2 = value2, ...'
  * "task_name = \'Task 1\', status = \'complete\', date = \'<today's_date>\'""
  */
 const _buildValuesString = (req) => {
     const body = req.body;
     const values = Object.keys(body).map(
-        (key) => `${key} = ${mysql.escape(body[key])}`
+        // [task_name, status].map()
+        (key) => `${key} = ${escape(body[key])}` // 'New 1 task name'
     );
 
     values.push(`created_date = NOW()`); // update current date and time
@@ -132,17 +137,17 @@ exports.updateTask = async (req, res) => {
     res.json(result);
 };
 
+// http://localhost:3000/tasks/1
 exports.deleteTask = async (req, res) => {
     // establish a connection
     const con = await connection().catch((err) => {
         throw err;
     });
 
-    // query to delete a task
+    // query delete task
     const result = await query(
         con, 
-        DELETE_TASK,  
-        [req.params.taskId]
+        DELETE_TASK(req.user.id, req.params.taskId)
     ).catch(serverError(res));
 
     if(result.affectedRows !== 1) {
@@ -152,4 +157,3 @@ exports.deleteTask = async (req, res) => {
     }
     res.json({ msg: 'Deleted successfully.' });
 };
-
